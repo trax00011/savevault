@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>Steam SaveVault</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/style.css" />
+</head>
+
+<body>
+  <div class="bg"></div>
+  <header class="top">
+    <div class="wrap">
+      <div class="brand">
+        <div class="logo">SV</div>
+        <div>
+          <div class="t1">Steam SaveVault</div>
+          <div class="t2">PC/Steam • Salvo no GitHub • Download em 1 clique</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn ghost" id="btnReload" type="button">Atualizar</button>
+        <button class="btn" id="btnAdd" type="button">+ Adicionar</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="bar">
+      <div class="search">
+        <input id="q" type="search" placeholder="Buscar jogo..." autocomplete="off" />
+        <span class="kbd">Ctrl K</span>
+      </div>
+
+      <div class="right">
+        <select id="sort">
+          <option value="updated_desc">Mais recentes</option>
+          <option value="name_asc">Nome (A–Z)</option>
+          <option value="name_desc">Nome (Z–A)</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="info">
+      <span class="pill" id="pillCount">0 saves</span>
+      <span class="pill ghost" id="pillState">Carregando…</span>
+    </section>
+
+    <section class="grid" id="grid"></section>
+
+    <section class="empty" id="empty" hidden>
+      <h2>Nenhum save ainda</h2>
+      <p>Clique em <strong>+ Adicionar</strong> e salve direto no GitHub.</p>
+    </section>
+  </main>
+
+  <!-- Modal detalhes -->
+  <dialog class="modal" id="modal">
+    <form method="dialog" class="card">
+      <div class="head">
+        <div>
+          <div class="tag">PC/STEAM</div>
+          <div class="name" id="mName">Jogo</div>
+          <div class="sub" id="mUpdated">Atualizado: —</div>
+        </div>
+        <button class="x" value="cancel">✕</button>
+      </div>
+
+      <div class="body">
+        <div class="row">
+          <label>Link do download</label>
+          <div class="copy">
+            <input id="mLink" readonly />
+            <button class="btn small" id="btnCopy" type="button">Copiar</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <label>Nota</label>
+          <div class="note" id="mNote">—</div>
+        </div>
+
+        <div class="cta">
+          <a class="btn" id="mDownload" href="#" download>Baixar</a>
+          <button class="btn ghost" id="mFav" type="button">⭐ Favoritar</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Modal adicionar (SALVA NO GITHUB) -->
+  <dialog class="modal" id="add">
+    <form method="dialog" class="card">
+      <div class="head">
+        <div>
+          <div class="tag">SALVAR NO GITHUB</div>
+          <div class="name">Adicionar save</div>
+          <div class="sub">Isso grava no <code>data/saves.json</code> do seu repo</div>
+        </div>
+        <button class="x" value="cancel">✕</button>
+      </div>
+
+      <div class="body">
+        <div class="row">
+          <label>Dono/Repo (ex: matheus/salvavault)</label>
+          <input id="repo" placeholder="seuUser/seuRepo" />
+        </div>
+
+        <div class="row">
+          <label>Branch (normalmente: main)</label>
+          <input id="branch" placeholder="main" value="main" />
+        </div>
+
+        <div class="row">
+          <label>GitHub Token (PAT)</label>
+          <input id="token" type="password" placeholder="ghp_..." />
+          <small class="hint">Dica: você pode colar e depois apagar (não fica salvo sozinho).</small>
+        </div>
+
+        <hr class="hr" />
+
+        <div class="row">
+          <label>Nome do jogo</label>
+          <input id="game" placeholder="Ex: Elden Ring" />
+        </div>
+
+        <div class="row">
+          <label>Link de download (zip do save)</label>
+          <input id="link" placeholder="Ex: ./saves/elden-ring/SaveData.zip" />
+          <small class="hint">Pode ser link do próprio repo (recomendado) ou externo.</small>
+        </div>
+
+        <div class="row">
+          <label>Atualizado (YYYY-MM-DD)</label>
+          <input id="updated" placeholder="2026-02-09" />
+        </div>
+
+        <div class="row">
+          <label>Nota (opcional)</label>
+          <input id="note" placeholder="Ex: Save endgame / NG+" />
+        </div>
+
+        <div class="cta">
+          <button class="btn" id="btnSaveGitHub" type="button">Salvar no GitHub</button>
+          <button class="btn ghost" value="cancel" type="submit">Cancelar</button>
+        </div>
+
+        <div class="status" id="addStatus" hidden></div>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="./assets/app.js"></script>
+</body>
+</html>
